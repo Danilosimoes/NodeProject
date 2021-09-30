@@ -1,0 +1,14 @@
+{
+   "env": {
+        
+        
+        "MYSQL_USER" : "root",
+        "MYSQL_PASSWORD" : "danilo123",
+        "MYSQL_DATABASE" : "controlepta",
+        "MYSQL_HOST" : "localhost",
+        "MYSQL_PORT" : 3306,
+
+        "JWT_KEY" : "segredo"
+    }
+}
+        
