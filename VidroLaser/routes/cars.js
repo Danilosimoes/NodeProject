@@ -8,7 +8,7 @@ const carsController = require('../controllers/cars-controller');
 
 router.get('/', carsController.getAllCars);
 
-router.post('/', carsController.postCars);
+router.post('/cadastroCarro', carsController.postCars);
 
 router.get('/:idCar', carsController.getOneCar);
 

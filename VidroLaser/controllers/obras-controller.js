@@ -81,7 +81,7 @@ exports.getFirstObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
-                /*const response = {
+                const response = {
                     Instalaçao:{
                         idInstalacao: result[0].idInstalacao,
                         Pedido: result[0].nPedido,
@@ -106,7 +106,7 @@ exports.getFirstObras =  (req, res, next) => {
                     }   }        
                     
                     
-                }*/
+                }
                 
                 return res.status(200).send({response}) 
             }
@@ -141,42 +141,55 @@ exports.postObras = (req, res, next) => {
                 }
                 if (result.length == 0) {
                     return res.status(404).send ({mensagem: 'Funcionário não encontrado'})
-                }          
-                conn.query(`insert INTO VLINSTALACAO (idFuncionario , Funcionario2, Funcionario3, Funcionario4, Funcionario5, nPedido, saida, idCar, descricao) 
-                            values(?,?,?,?,?,?,?,?,?)`,
-                    [
-                    req.body.idFuncionario,
-                    req.body.Funcionario2,
-                    req.body.Funcionario3 ? req.body.Funcionario3 : "N/F",
-                    req.body.Funcionario4 ? req.body.Funcionario4 : "N/F", 
-                    req.body.Funcionario5 ? req.body.Funcionario5 : "N/F", 
-                    req.body.nPedido ? req.body.nPedido : "N/P",
-                    datetime = new Date(),
-                    req.body.idCar,
-                    req.body.descricao
-                    ],
-                    (error, result, field) => {
-                        conn.release();
-                        if (error) {
-                            return res.status(500).send({error: error})
-                        }
-                        const response = {
-                            mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
-                            pedidoCriado: {
-                                idInstalacao: result.idInstalacao,
-                                idFunc: req.body.idFuncionario,
-                                funs2: req.body.Funcionario2,
-                                nPedido: req.body.nPedido,
-                                idCar: req.body.idCar,
-                                descricao: req.body.descricao,
-                                request: {
-                                    tipo: 'GET',
-                                    descricao: 'Retorna a instalação',
-                                    url: 'http://localhost:3000/obras/' + result.insertId
-                                }
+                }
+
+                conn.query('select chegada from vlinstalacao where idCar = ?',
+                [req.body.idCar],
+                (error, result, field) => {
+                    if (error){
+                        return res.status(500).send({error: error})
+                    }
+                    if(result === null){
+                        console.log(result)
+                        return res.status(403).send ({mensagem: 'Existe uma saída em aberto para este carro'})
+                    }
+
+                
+                    conn.query(`insert INTO VLINSTALACAO (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
+                                values(?,?,?,?,?,?,?,?,?)`,
+                        [
+                        req.body.idFuncionario,
+                        req.body.Funcionario2,
+                        req.body.Funcionario3 ? req.body.Funcionario3 : "N/F",
+                        req.body.Funcionario4 ? req.body.Funcionario4 : "N/F", 
+                        req.body.Funcionario5 ? req.body.Funcionario5 : "N/F", 
+                        req.body.nPedido ? req.body.nPedido : "N/P",
+                        datetime = new Date(),
+                        req.body.idCar,
+                        req.body.descricao
+                        ],
+                        (error, result, field) => {
+                            conn.release();
+                            if (error) {
+                                return res.status(500).send({error: error})
                             }
-    
-                        }
+                            const response = {
+                                mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
+                                pedidoCriado: {
+                                    idInstalacao: result.idInstalacao,
+                                    idFunc: req.body.idFuncionario,
+                                    funs2: req.body.Funcionario2,
+                                    nPedido: req.body.nPedido,
+                                    idCar: req.body.idCar,
+                                    descricao: req.body.descricao,
+                                    request: {
+                                        tipo: 'GET',
+                                        descricao: 'Retorna a instalação',
+                                        url: 'http://localhost:3000/obras/' + result.insertId
+                                    }
+                                }
+        
+                            }
                     
                         return res.status(201).send({
                             response
@@ -186,7 +199,7 @@ exports.postObras = (req, res, next) => {
             }
         )
     
-    })
+    }) })
 });
 };
 

@@ -5,11 +5,11 @@ const login = require('../middleware/login');
 
 const obrasController = require('../controllers/obras-controller');
 
-router.get('/', obrasController.getObras);
-router.post('/',obrasController.postObras);
+router.get('/findAll', obrasController.getObras);
 router.get('/:idInstalacao', obrasController.getFirstObras);
-router.put('/', obrasController.putObras);
-router.delete('/', obrasController.deleteObras);
+router.put('/atualizar', obrasController.putObras);
+router.delete('/deletar', obrasController.deleteObras);
+router.post('/cadastro',obrasController.postObras);
 
 
 module.exports = router;
