@@ -15,7 +15,7 @@ app.use(bodyParser.json()); //json de entrada no body
 app.use(express.json());
 
 app.use((req, res, next)=>{
-    res.header('Acess-Control-Allow-Origin', '*');
+    res.header('Acess-Control-Allow-Origin', 'http://143.110.153.236:8080');
     res.header(
         'Acess-Control-Allow-Header',
         'Origin',
