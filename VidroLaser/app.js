@@ -16,6 +16,7 @@ app.use(express.json());
 
 app.use((req, res, next)=>{
     res.header('Acess-Control-Allow-Origin', '*');
+    res.addheader("Access-Control-Allow-Origin", "*")
     res.header(
         'Acess-Control-Allow-Header',
         'Origin',
