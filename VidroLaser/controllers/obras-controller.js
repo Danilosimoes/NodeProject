@@ -155,7 +155,7 @@ exports.postObras = (req, res, next) => {
                     }
 
                 
-                    conn.query(`insert INTO VLINSTALACAO (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
+                    conn.query(`insert INTO vlinstalacao (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
                                 values(?,?,?,?,?,?,?,?,?)`,
                         [
                         req.body.idFuncionario,
