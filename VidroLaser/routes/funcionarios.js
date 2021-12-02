@@ -6,15 +6,15 @@ const login = require('../middleware/login');
 const funcController = require('../controllers/funcionarios-controller');
 
 
-router.get('/', login.opcional, funcController.getAllFunc );
+router.get('/finalAllFuncionario', login.opcional, funcController.getAllFunc );
 
-router.post('/', /*login.obrigatorio,*/ funcController.postFuncionarios);
+router.post('/cadastrarFuncionario', /*login.obrigatorio,*/ funcController.postFuncionarios);
 
 router.get('/:idFuncionario', login.opcional, funcController.findbyIdFunc);
 
-router.patch('/',/*login.obrigatorio,*/ funcController.patchFuncionario);
+router.patch('/alterarFuncionario',/*login.obrigatorio,*/ funcController.patchFuncionario);
 
-router.delete('/',/*login.obrigatorio,*/ funcController.deleteFunc);
+router.delete('/deletarFuncionario',/*login.obrigatorio,*/ funcController.deleteFunc);
 
 
 
