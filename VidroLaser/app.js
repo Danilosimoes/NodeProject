@@ -28,7 +28,7 @@ app.use('*',(req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "PUT", "POST, GET, DELETE");
     res.setHeader("Access-Control-Max-Age", "3600");
     res.setHeader("Access-Control-Allow-Headers", "x-requested-with", "content-type");
-    res.header('Acess-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    res.setHeader('Acess-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
     
 
     
@@ -39,10 +39,10 @@ app.use('*',(req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers", "Origin,Accept","Authorization", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers");
     app.use(cors());   
    
-    if(req.method === 'OPTIONS'){
+    //if(req.method === 'OPTIONS'){
         //return res.status(200).send({});
-        next();
-    }
+        
+    //}
         
 
 
