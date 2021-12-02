@@ -15,7 +15,7 @@ app.use(bodyParser.json()); //json de entrada no body
 app.use(express.json());
 
 app.use((req, res, next)=>{
-    //res.header('Acess-Control-Allow-Origin', '*');
+    /*//res.header('Acess-Control-Allow-Origin', '*');
     res.setHeader(
         'Acess-Control-Allow-Header',
         'Origin',
@@ -29,14 +29,19 @@ app.use((req, res, next)=>{
     res.setHeader("Access-Control-Max-Age", "3600");
     res.setHeader("Access-Control-Allow-Headers", "x-requested-with", "content-type");
     /*res.header('Acess-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-    app.use(cors());*/
+    
 
     /*if(req.method === 'OPTIONS'){
         res.header('Acess-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
         return res.status(200).send({});
         
     }*/
-    
+
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT, DELETE");
+    response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    app.use(cors());   
    
 
     next();
