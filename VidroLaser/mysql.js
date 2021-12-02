@@ -1,15 +1,19 @@
 var mysql = require('mysql');
+require('dotenv/config');
+
 
 var pool = mysql.createPool({
-    "user": "admin",
-    "password": process.env.MYSQL_PASSWORD,
-    "database": process.env.MYSQL_DATABASE,
-    "host": process.env.MYSQL_HOST,
+    "user": process.env.USER,
+    "password": process.env.PASSWORD,
+    "database": process.env.DATABASE,
+    "host": process.env.HOST,
     "port": process.env.MYSQL_PORT,
 
 
     
 });
+ 
+
 
 
 exports.pool = pool;
