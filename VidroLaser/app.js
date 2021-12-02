@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true})); //apenas dados simples
 app.use(bodyParser.json()); //json de entrada no body
 app.use(express.json());
 
-app.use('*',(req, res, next) => {
+app.use('*',(req, response, next) => {
     /*//res.header('Acess-Control-Allow-Origin', '*');
     res.setHeader(
         'Acess-Control-Allow-Header',
@@ -36,17 +36,16 @@ app.use('*',(req, res, next) => {
     response.setHeader("Access-Control-Allow-Origin", "*");
     response.setHeader("Access-Control-Allow-Credentials", "true");
     response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT, DELETE");
-    response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers", "Origin,Accept","Authorization", "X-Requested-With", "Content-Type", "Access-Control-Request-Method", "Access-Control-Request-Headers");
     app.use(cors());   
    
     if(req.method === 'OPTIONS'){
         return res.status(200).send({});
-        
-    }else{
-
-        next();
-
     }
+        
+
+
+    next();
 
     
 });
