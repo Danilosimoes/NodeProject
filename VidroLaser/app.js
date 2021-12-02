@@ -27,7 +27,7 @@ app.use((req, res, next)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "PUT", "POST, GET, OPTIONS, DELETE");
     res.setHeader("Access-Control-Max-Age", "3600");
-    res.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+    res.setHeader("Access-Control-Allow-Headers", "x-requested-with", "content-type");
     /*res.header('Acess-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
     app.use(cors());*/
 
