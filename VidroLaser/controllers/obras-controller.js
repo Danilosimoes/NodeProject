@@ -48,7 +48,7 @@ exports.getObras =  (req, res, next) => {
                         }
                     )
                 
-                return res.status(200).send({result})
+                return res.status(200).send([result])
                 
             }
         ) 
