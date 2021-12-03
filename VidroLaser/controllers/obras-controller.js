@@ -26,31 +26,32 @@ exports.getObras =  (req, res, next) => {
                 }
                 result.map(obras => {
                         //instalacoes: result.map(obras => {
-                        return {
-                            quantidade: 'Total de saídas: ' + result.length,
-                            idInstalacao: obras.idInstalacao,
-                            Pedido: obras.nPedido,
-                            saida: obras.saida,
-                            chegada: obras.chegada,
-                            descricao: obras.descricao,
-                            Carro: {
-                                Modelo: obras.Model,
-                                Placa: obras.License
-                            },                            
-                            Funcionario: {
-                                Nome: obras.Nome
-                            },
-                            request: {
+                        
+                            result.length,
+                            obras.idInstalacao,
+                            obras.nPedido,
+                            obras.saida,
+                            obras.chegada,
+                            obras.descricao,
+                           
+                            obras.Model,
+                            obras.License
+                                                      
+                        
+                            obras.Nome
+                        
+                            /*request: {
                                 tipo: 'GET',
                                 descricao: 'Retorna os detalhes de um pedido em específico',
                                 url: 'http://localhost:3000/obras/' + obras.idInstalacao
-                            }
+                            }*/
                         }
-                    })
+                    )
                 
-                return res.status(200).send({result}) 
+                return res.status(200).send({result})
+                
             }
-        )
+        ) 
    });
 };
 
