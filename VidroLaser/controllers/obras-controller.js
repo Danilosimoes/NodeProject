@@ -25,21 +25,19 @@ exports.getObras =  (req, res, next) => {
                     
                 }
                 const response = result.map(obras => {
-                    //quantidade: 'Total de saídas: ' + result.length,
-                    //instalacoes: result.map(obras => {
+                        //instalacoes: result.map(obras => {
                         return {
+                            quantidade: 'Total de saídas: ' + result.length,
                             idInstalacao: obras.idInstalacao,
                             Pedido: obras.nPedido,
                             saida: obras.saida,
                             chegada: obras.chegada,
                             descricao: obras.descricao,
                             Carro: {
-                                idCar: obras.idCar,
                                 Modelo: obras.Model,
                                 Placa: obras.License
-                            },
+                            },                            
                             Funcionario: {
-                                idFuncionario: obras.idFuncionario,
                                 Nome: obras.Nome
                             },
                             request: {
