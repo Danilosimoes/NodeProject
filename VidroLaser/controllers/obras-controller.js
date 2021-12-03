@@ -27,7 +27,6 @@ exports.getObras =  (req, res, next) => {
                 result.map(obras => {
                         //instalacoes: result.map(obras => {
                         
-                            result.length,
                             obras.idInstalacao,
                             obras.nPedido,
                             obras.saida,
@@ -48,7 +47,7 @@ exports.getObras =  (req, res, next) => {
                         }
                     )
                 
-                return res.status(200).send([result])
+                return res.status(200).send(result)
                 
             }
         ) 
