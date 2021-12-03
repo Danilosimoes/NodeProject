@@ -81,7 +81,7 @@ exports.getFirstObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
-                const response = {
+                const response = [{
                     Instalaçao:{
                         idInstalacao: result[0].idInstalacao,
                         Pedido: result[0].nPedido,
@@ -106,7 +106,7 @@ exports.getFirstObras =  (req, res, next) => {
                     }   }        
                     
                     
-                }
+                }]
                 
                 return res.status(200).send({response}) 
             }
