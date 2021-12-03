@@ -36,7 +36,7 @@ app.use((req, res, next) => {
     app.use(cors());   
    
     if(req.method === 'OPTIONS'){
-        res.setHeader("Access-Control-Allow-Methods", "PUT", "POST, GET, DELETE");
+        res.setHeader("Access-Control-Allow-Methods", "PUT", "POST, GET, DELETE, PATCH");
         //return res.status(200).send({});
         
     }
