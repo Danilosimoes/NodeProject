@@ -24,7 +24,7 @@ exports.getObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
-                const response = [{
+                const response = {
                     quantidade: 'Total de saídas: ' + result.length,
                     instalaçoes: result.map(obras => {
                         return {
