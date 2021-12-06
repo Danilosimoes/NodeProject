@@ -14,7 +14,7 @@ exports.getObras =  (req, res, next) => {
                             INNER JOIN
                         vlcars a ON c.idCar = a.idCar
                             INNER JOIN
-                        vlfuncionarios b on c.idFuncionario = b.idFuncionario;`,
+                        vlfuncionarios b on c.idFuncionario = b.idFuncionario `,
             (error, result, fields) => {
                 conn.release();
                 if (error) {
@@ -25,26 +25,17 @@ exports.getObras =  (req, res, next) => {
                     
                 }
                 result.map(obras => {
-                        //instalacoes: result.map(obras => {
-                        
                             obras.idInstalacao,
                             obras.nPedido,
                             obras.saida,
                             obras.chegada,
                             obras.descricao,
-                           
                             obras.Model,
-                            obras.License
-                                                      
+                            obras.License,
+                            obras.Nome,
+                            'http://localhost:3000/obras/' + obras.idInstalacao
+                            }
                         
-                            obras.Nome
-                        
-                            /*request: {
-                                tipo: 'GET',
-                                descricao: 'Retorna os detalhes de um pedido em específico',
-                                url: 'http://localhost:3000/obras/' + obras.idInstalacao
-                            }*/
-                        }
                     )
                 
                 return res.status(200).send(result)
@@ -79,6 +70,15 @@ exports.getFirstObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
+                /*result.map(obras => {
+                    obras.idInstalacao,
+                    obras.Nome,
+                    obras.nPedido,
+                    obras.License,
+                    obras.saida,
+                    obras.chegada    
+                })*/
+                
                 const response = [{
                     Instalaçao:{
                         idInstalacao: result[0].idInstalacao,
@@ -171,7 +171,7 @@ exports.postObras = (req, res, next) => {
                             if (error) {
                                 return res.status(500).send({error: error})
                             }
-                            const response = {
+                            const response = [{
                                 mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
                                 pedidoCriado: {
                                     idInstalacao: result.idInstalacao,
@@ -187,11 +187,11 @@ exports.postObras = (req, res, next) => {
                                     }
                                 }
         
-                            }
+                            }]
                     
-                        return res.status(201).send({
+                        return res.status(201).send(
                             response
-                        })
+                        )
                     }
                 )
             }
@@ -225,7 +225,7 @@ exports.putObras = (req, res, next) =>{
                         if (error) {
                             return res.status(500).send({error: error})
                         }
-                        const response = {
+                        const response = [{
                             mensagem: 'Instalação concluida com sucesso',
                             InstalacaoFinzalizada : {
                                 instalacao: req.body.idInstalacao,
@@ -238,10 +238,10 @@ exports.putObras = (req, res, next) =>{
 
                             }
                     
-                        }
-                        return res.status(202).send({
+                        }]
+                        return res.status(202).send(
                             response
-                        })
+                        )
                 }   )
                 
             
@@ -264,15 +264,15 @@ exports.deleteObras = (req, res, netxt)=>{
                     return res.status(500).send({error: error})
                 }
                 const response = {
-                    mensagem: 'Instalacção removida com sucesso',
+                    mensagem: 'Instalação removida com sucesso',
                     request: {
                         Method: 'POST',
                         url: 'http://localhost:3000/obras'
                     }
                 }
-                return res.status(202).send({
+                return res.status(202).send(
                     response
-                })
+                )
 
         }   )
     })
