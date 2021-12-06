@@ -171,7 +171,8 @@ exports.postObras = (req, res, next) => {
                             if (error) {
                                 return res.status(500).send({error: error})
                             }
-                            const response = {
+
+                            const response = [{
                                 mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
                                 
                                     idInstalacao: result.idInstalacao,
@@ -186,12 +187,15 @@ exports.postObras = (req, res, next) => {
                                     
                                 
         
-                            }
+                            }]
+                            
                     
                         return res.status(201).send(
-                            [response]
-                        )
+                            response
+                            
+                        ) 
                     }
+                    
                 )
             }
         )
@@ -241,7 +245,9 @@ exports.putObras = (req, res, next) =>{
                         return res.status(202).send(
                             response
                         )
+                        
                 }   )
+               
                 
             
 
@@ -262,13 +268,13 @@ exports.deleteObras = (req, res, netxt)=>{
                 if (error) {
                     return res.status(500).send({error: error})
                 }
-                const response = {
+                const response = [{
                     mensagem: 'Instalação removida com sucesso',
                     request: {
                         Method: 'POST',
                         url: 'http://localhost:3000/obras'
                     }
-                }
+                }]
                 return res.status(202).send(response)
         }   )
     })
