@@ -115,6 +115,7 @@ exports.getFirstObras =  (req, res, next) => {
 
 exports.postObras = (req, res, next) => {
     mysql.getConnection((error, conn)=>{
+
         
         if (error) { 
             return res.status(500).send({ error: error})
@@ -148,7 +149,6 @@ exports.postObras = (req, res, next) => {
                         return res.status(500).send({error: error})
                     }
                     if(result === null){
-                        console.log(result)
                         return res.status(403).send ({mensagem: 'Existe uma saída em aberto para este carro'})
                     }
 
@@ -171,26 +171,25 @@ exports.postObras = (req, res, next) => {
                             if (error) {
                                 return res.status(500).send({error: error})
                             }
-                            const response = [{
+                            const response = {
                                 mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
-                                pedidoCriado: {
+                                
                                     idInstalacao: result.idInstalacao,
                                     idFunc: req.body.idFuncionario,
                                     funs2: req.body.Funcionario2,
                                     nPedido: req.body.nPedido,
                                     idCar: req.body.idCar,
                                     descricao: req.body.descricao,
-                                    request: {
-                                        tipo: 'GET',
-                                        descricao: 'Retorna a instalação',
-                                        url: 'http://localhost:3000/obras/' + result.insertId
-                                    }
-                                }
+                                    tipo: 'GET',
+                                    descricao: 'Retorna a instalação',
+                                    url: 'http://localhost:3000/obras/' + result.insertId
+                                    
+                                
         
-                            }]
+                            }
                     
                         return res.status(201).send(
-                            response
+                            [response]
                         )
                     }
                 )
@@ -270,10 +269,7 @@ exports.deleteObras = (req, res, netxt)=>{
                         url: 'http://localhost:3000/obras'
                     }
                 }
-                return res.status(202).send(
-                    response
-                )
-
+                return res.status(202).send(response)
         }   )
     })
 }

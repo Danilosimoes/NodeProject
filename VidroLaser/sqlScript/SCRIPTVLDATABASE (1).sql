@@ -106,13 +106,7 @@ insert INTO VLINSTALACAO (idFuncionario , idFuncionario2, idFuncionario3, idFunc
 							idFuncionario5, nPedido, idCar, descricao)
                             values("11","LEANDRO","GUSTAVO","","","98524","9","OBRA TAL");
                             
-CREATE USER IF NOT EXISTS 'danilosimoes'@'DBVIDROLASER'
-IDENTIFIED BY 'danilo123';
 
-
-GRANT ALL privileges
-ON *.*
-TO 'danilosimoes'@'DBVIDROLASER';
 
 
 UPDATE vlinstalacao 
