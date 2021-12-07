@@ -16,26 +16,24 @@ exports.getAllCars = (req, res, next) => {
                  if (result < 1 ) {
                      return res.status(404).send({error: 'Não existe carro cadastrado'})
                      
-                 }
-                 const response = {
-                     quantidade: result.length,
-                     carros: result.map(cars =>{
-                         return {
-                             idCar: cars.idCar,
-                             Placa:cars.License,
-                             Model: cars.Model,
-                             Cor: cars.Cor,
-                             request:{
-                                 tipo: 'GET',
-                                 descricao: 'Retorna o carro especifico',
-                                 url: 'http://localhost:3000/cars/' + cars.idCar
-                             }
-                         }
-                     })
-                 }
-                 return res.status(200).send({response})
-             }
-         )
+                    }
+                    teste =  result.map(cars =>{
+                    return{
+                        idCar: cars.idCar,
+                        Placa:cars.License,
+                        Model: cars.Model,
+                        Cor: cars.Cor,
+                        request:{
+                            tipo: 'GET',
+                            descricao: 'Retorna o carro especifico',
+                            url: 'http://localhost:3000/cars/' + cars.idCar
+                        }
+                    }
+                })
+                
+                return res.status(200).send(teste)
+            }
+        )
     });
 }
 
@@ -58,9 +56,7 @@ exports.postCars = (req, res, next) => {
                 if (error) { 
                     return res.status(500).send({ error: error})
                 }
-                const response = {
-                    mensagem: 'Carro inserido com sucesso',
-                    carroCriado: {
+                const response = [{
                         idCarro: result.insertId,
                         Placa: req.body.License,
                         Model: req.body.Model,
@@ -68,13 +64,14 @@ exports.postCars = (req, res, next) => {
                         request: {
                             tipo: 'GET',
                             descricao: 'Carro inserido',
-                            url: 'http://localhost:3000/cars/' + result.insertId
+                            url: 'http://localhost:3000/cars/' + result.insertId,
+                            mensagem: 'Carro inserido com sucesso'
                         }
-                    }
-                }
-                return res.status(201).send({
+                    
+                }]
+                return res.status(201).send(
                     response
-                });
+                );
             }
         )
 
@@ -103,8 +100,8 @@ exports.getOneCar = (req, res, next) =>{
                 if (result < 1) {
                     return res.status(404).send({error: 'Id não encontrado'})
                 }
-                const response = {
-                    carro: {
+                const response = [{
+
                         idCar: result[0].idCar,
                         License: result[0].License,
                         Model: result[0].Model,
@@ -115,10 +112,10 @@ exports.getOneCar = (req, res, next) =>{
                             url: 'http://localhost:3000/cars'
                         }
 
-                    }
                     
-                }
-                return res.status(200).send({response})
+                    
+                }]
+                return res.status(200).send(response)
                 
             }
             
@@ -144,27 +141,15 @@ exports.deleteCar = (req, res, next) => {
                     return res.status(404).send({ error: error})
                 }
                 
-                const response = {
+                const response = [{
                     mensagem: 'Carro removido com sucesso',
-                    request:{
-                        tipo: 'POST',
-                        descricao: 'Insere um carro',
-                        url: 'http://localhost:3000/cars',
-                        body: {
-                            idCar: 'Number',
-                            License: 'String',
-                            Model: 'String',
-                            Cor: 'String,'
-
-                        }
-                    }
-                }
-                
-                
-                return res.status(202).send({
+                    inicio: 'url'
+                    
+                }]
+                return res.status(202).send(
                     response
                    
-                });
+                );
             }
         )
         

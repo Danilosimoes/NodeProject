@@ -70,14 +70,14 @@ exports.getFirstObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
-                /*result.map(obras => {
+                result.map(obras => {
                     obras.idInstalacao,
                     obras.Nome,
                     obras.nPedido,
                     obras.License,
                     obras.saida,
                     obras.chegada    
-                })*/
+                })
                 
                 const response = [{
                     Instalaçao:{
@@ -106,7 +106,7 @@ exports.getFirstObras =  (req, res, next) => {
                     
                 }]
                 
-                return res.status(200).send(response) 
+                return res.status(200).send(result) 
             }
         )
    });
@@ -175,7 +175,7 @@ exports.postObras = (req, res, next) => {
                             const response = [{
                                 mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
                                 
-                                    idInstalacao: result.idInstalacao,
+                                    idInstalacao: result.insertId,
                                     idFunc: req.body.idFuncionario,
                                     funs2: req.body.Funcionario2,
                                     nPedido: req.body.nPedido,
@@ -188,8 +188,8 @@ exports.postObras = (req, res, next) => {
                                 
         
                             }]
+
                             
-                    
                         return res.status(201).send(
                             response
                             
@@ -221,8 +221,8 @@ exports.putObras = (req, res, next) =>{
                         mensagem: 'Id da instalação não encontrada'
                     })
                 } 
-                conn.query('Update vlinstalacao set chegada = ? where idInstalacao = ?',
-                    [datetime = new Date(), req.body.idInstalacao],
+                conn.query('Update vlinstalacao set chegada = ?, complete = 1 where idInstalacao = ?',
+                    [chegada = new Date(), req.body.idInstalacao],
                     (error, result, field) =>{
                         conn.release();
                         if (error) {
@@ -232,7 +232,7 @@ exports.putObras = (req, res, next) =>{
                             mensagem: 'Instalação concluida com sucesso',
                             InstalacaoFinzalizada : {
                                 instalacao: req.body.idInstalacao,
-                                chegada: datetime,
+                                chegada: chegada,
                                 request: {
                                     metodo: 'GET',
                                     descricao: 'Retorna a instalaçao finalizada',
@@ -242,6 +242,7 @@ exports.putObras = (req, res, next) =>{
                             }
                     
                         }]
+                        
                         return res.status(202).send(
                             response
                         )
@@ -279,4 +280,37 @@ exports.deleteObras = (req, res, netxt)=>{
         }   )
     })
 }
- 
+
+
+exports.getObrasAbertas = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if (error) {
+            return res.status(500).send ({error: error})
+        }
+        conn.query( `SELECT
+                        c.idInstalacao, b.Nome, a.Model, a.License, c.nPedido,
+                        date_format(c.saida, '%d/%m/%Y %H:%i:%s') as saida,
+                        date_format(c.chegada, '%d/%m/%Y %H:%i:%s') as chegada, c.descricao
+                    FROM
+                        vlinstalacao c
+                            INNER JOIN
+                        vlcars a ON c.idCar = a.idCar
+                            INNER JOIN
+                        vlfuncionarios b on c.idFuncionario = b.idFuncionario 
+                            where complete = 0`,
+        (error, result, field) => {
+           
+            conn.release();
+            if (error) {
+                return res.status(500).send({error: error})
+            }
+            if (result < 1 ) {
+                
+                return res.status(404).send({mensagem: "Não há saídas em aberto"})
+            }
+            
+           return res.status(200).send(result)
+        })   
+        
+    })
+}
