@@ -24,6 +24,9 @@ exports.getObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
+                if (res.status(403)) {
+                    next();
+                }
                 const response = result.map(obras => {
                     return{
                             idInstalacao: obras.idInstalacao,
@@ -184,6 +187,7 @@ exports.postObras = (req, res, next) => {
                                     nPedido: req.body.nPedido,
                                     idCar: req.body.idCar,
                                     descricao: req.body.descricao,
+                                    saida: datetime,
                                     tipo: 'GET',
                                     descricao: 'Retorna a instalação',
                                     url: 'http://localhost:3000/obras/' + result.insertId
@@ -222,7 +226,7 @@ exports.putObras = (req, res, next) =>{
                     })
                 } 
                 conn.query('Update vlinstalacao set chegada = ?, complete = 1 where idInstalacao = ?',
-                    [chegada = new Date(), req.body.idInstalacao],
+                    [chegada = new Date() , req.body.idInstalacao],
                     (error, result, field) =>{
                         conn.release();
                         if (error) {
