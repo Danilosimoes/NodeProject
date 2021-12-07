@@ -15,9 +15,8 @@ exports.getAllFunc = (req, res, next) => {
                      return res.status(404).send({error: 'Não exsite funcionário cadastrado'})
                      
                  }
-                 const response = {
-                     quantidade: result.length,
-                     produtos: result.map(func =>{
+                 response = 
+                     result.map(func =>{
                          return {
                              idFuncionario: func.idFuncionario,
                              Nome:func.Nome,
@@ -29,8 +28,8 @@ exports.getAllFunc = (req, res, next) => {
                              }
                          }
                      })
-                 }
-                 return res.status(200).send({response})
+                 
+                 return res.status(200).send(response)
              }
          )
     });
@@ -53,9 +52,7 @@ exports.postFuncionarios = (req, res, next) => {
                 if (error) { 
                     return res.status(500).send({ error: error})
                 }
-                const response = {
-                    mensagem: 'Funcionario inserido com sucesso',
-                    produtoCriado: {
+                const response =[{
                         idFuncionario: result.insertId,
                         nome: req.body.Nome,
                         setor: req.body.setor,
@@ -64,11 +61,11 @@ exports.postFuncionarios = (req, res, next) => {
                             descricao: 'Funcionario inserido',
                             url: 'http://localhost:3000/funcionarios/' + result.insertId
                         }
-                    }
-                }
-                return res.status(201).send({
+                    }]
+                
+                return res.status(201).send(
                     response
-                });
+                );
             }
         )
 
@@ -92,8 +89,7 @@ exports.findbyIdFunc = (req, res, next) =>{
                 if (result < 1) {
                     return res.status(404).send({error: 'Id não encontrado'})
                 }
-                const response = {
-                    produto: {
+                const response =[ {                  
                         idFuncionario: result[0].idFuncionario,
                         nome: result[0].Nome,
                         setor: result[0].setor,
@@ -102,9 +98,9 @@ exports.findbyIdFunc = (req, res, next) =>{
                             descricao: 'Retorna todos os funcionarios',
                             url: 'http://localhost:3000/funcionarios'
                         }
-                    }
-                }
-                return res.status(200).send({response})
+                    
+                }]
+                return res.status(200).send(response)
                 
             }
         )
@@ -127,9 +123,7 @@ exports.patchFuncionario = (req, res, next) => {
                 if (error) { 
                     return res.status(500).send({ error: error})
                 }
-                const response = {
-                    mensagem: 'Funcionario Atualizado com sucesso',
-                    produtoAtualizado: {
+                const response = [{
                         id_produto: req.body.idFuncionario,
                         nome: req.body.Nome,
                         setor: req.body.setor,
@@ -138,8 +132,8 @@ exports.patchFuncionario = (req, res, next) => {
                             descricao : 'Retorna os detalhes do funcioario atualizado',
                             url: 'http://localhost:3000/funcionarios/' + req.body.idFuncionario
                         }
-                    }
-                }
+                    
+                }]
 
                 return res.status(202).send(
                     response
@@ -167,20 +161,11 @@ exports.deleteFunc = (req, res, next) => {
                 }
                 const response = {
                     mensagem: 'Funcionario removido com sucesso',
-                    request:{
-                        tipo: 'POST',
-                        descricao: 'Insere um funcionário',
-                        url: 'http://localhost:3000/funcionarios',
-                        body: {
-                            Nome: 'String',
-                            setor: 'String'
-                        }
-                    }
                 }
                 
-                return res.status(202).send({
-                   response
-                });
+                return res.status(202).send([
+                   response]
+                );
             }
         )
 

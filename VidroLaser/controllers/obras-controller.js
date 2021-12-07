@@ -24,21 +24,22 @@ exports.getObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
-                result.map(obras => {
-                            obras.idInstalacao,
-                            obras.nPedido,
-                            obras.saida,
-                            obras.chegada,
-                            obras.descricao,
-                            obras.Model,
-                            obras.License,
-                            obras.Nome,
-                            'http://localhost:3000/obras/' + obras.idInstalacao
-                            }
-                        
-                    )
+                const response = result.map(obras => {
+                    return{
+                            idInstalacao: obras.idInstalacao,
+                            pedido: obras.nPedido,
+                            saida: obras.saida,
+                            chegada: obras.chegada,
+                            descricao: obras.descricao,
+                            modelo: obras.Model,
+                            placa: obras.License,
+                            nome: obras.Nome,
+                            url: {
+                                url: 'http://localhost:3000/obras/' + obras.idInstalacao}
+                    }   
                 
-                return res.status(200).send(result)
+                })
+                return res.status(200).send(response)
                 
             }
         ) 
@@ -70,16 +71,18 @@ exports.getFirstObras =  (req, res, next) => {
                     return res.status(404).send({error: 'Não há saída com esse registro'})
                     
                 }
-                result.map(obras => {
-                    obras.idInstalacao,
-                    obras.Nome,
-                    obras.nPedido,
-                    obras.License,
-                    obras.saida,
-                    obras.chegada    
+                const response = result.map(obras => {
+                    return {
+                    instalacao: obras.idInstalacao,
+                    nome: obras.Nome,
+                    pedido: obras.nPedido,
+                    placa: obras.License,
+                    saida: obras.saida,
+                    chegada: obras.chegada 
+                    }   
                 })
                 
-                const response = [{
+                /*const response = [{
                     Instalaçao:{
                         idInstalacao: result[0].idInstalacao,
                         Pedido: result[0].nPedido,
@@ -104,9 +107,9 @@ exports.getFirstObras =  (req, res, next) => {
                     }   }        
                     
                     
-                }]
+                }]*/
                 
-                return res.status(200).send(result) 
+                return res.status(200).send(response) 
             }
         )
    });
@@ -184,9 +187,6 @@ exports.postObras = (req, res, next) => {
                                     tipo: 'GET',
                                     descricao: 'Retorna a instalação',
                                     url: 'http://localhost:3000/obras/' + result.insertId
-                                    
-                                
-        
                             }]
 
                             
@@ -229,18 +229,15 @@ exports.putObras = (req, res, next) =>{
                             return res.status(500).send({error: error})
                         }
                         const response = [{
-                            mensagem: 'Instalação concluida com sucesso',
-                            InstalacaoFinzalizada : {
                                 instalacao: req.body.idInstalacao,
                                 chegada: chegada,
+                                mensagem: 'Instalação concluida com sucesso',
                                 request: {
                                     metodo: 'GET',
                                     descricao: 'Retorna a instalaçao finalizada',
                                     url: 'http://localhost:3000/obras/' + req.body.idInstalacao
+                                    
                                 }
-
-                            }
-                    
                         }]
                         
                         return res.status(202).send(
@@ -248,10 +245,6 @@ exports.putObras = (req, res, next) =>{
                         )
                         
                 }   )
-               
-                
-            
-
         }  )
         
     })
@@ -282,7 +275,7 @@ exports.deleteObras = (req, res, netxt)=>{
 }
 
 
-exports.getObrasAbertas = (req, res, next) => {
+exports.getObrasAbertas  = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) {
             return res.status(500).send ({error: error})
@@ -308,8 +301,18 @@ exports.getObrasAbertas = (req, res, next) => {
                 
                 return res.status(404).send({mensagem: "Não há saídas em aberto"})
             }
-            
-           return res.status(200).send(result)
+            const response = result.map(element => {
+                return{
+                    instalacao: element.idInstalacao,
+                    nome: element.Nome,
+                    placa: element.placa,
+                    pedido: element.nPedido,
+                    saida: element.saida
+
+                }
+            })
+           return res.status(200).send(response)
+           
         })   
         
     })

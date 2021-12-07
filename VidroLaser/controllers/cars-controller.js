@@ -5,7 +5,7 @@ var datetime = new Date().toLocaleString();
 exports.getAllCars = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         
-         if (error) { return res.status(500).send({ error: error})}
+         if (error) { return res.status(500).send([{ error: error}])}
          conn.query(
              'SELECT * FROM vlcars;',
              (error, result, fields) => {
@@ -14,10 +14,10 @@ exports.getAllCars = (req, res, next) => {
                      return res.status(500).send({ error: error})                
                  }
                  if (result < 1 ) {
-                     return res.status(404).send({error: 'Não existe carro cadastrado'})
+                     return res.status(404).send([{error: 'Não existe carro cadastrado'}])
                      
                     }
-                    teste =  result.map(cars =>{
+                    response =  result.map(cars =>{
                     return{
                         idCar: cars.idCar,
                         Placa:cars.License,
@@ -31,7 +31,7 @@ exports.getAllCars = (req, res, next) => {
                     }
                 })
                 
-                return res.status(200).send(teste)
+                return res.status(200).send(response)
             }
         )
     });
@@ -45,7 +45,7 @@ exports.postCars = (req, res, next) => {
     mysql.getConnection((error, conn)=>{
         
         if (error) { 
-            return res.status(500).send({ error: error})
+            return res.status(500).send([{ error: error}])
         }
         
         conn.query(
@@ -54,7 +54,7 @@ exports.postCars = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if (error) { 
-                    return res.status(500).send({ error: error})
+                    return res.status(500).send([{ error: error}])
                 }
                 const response = [{
                         idCarro: result.insertId,
@@ -88,7 +88,7 @@ exports.postCars = (req, res, next) => {
 exports.getOneCar = (req, res, next) =>{
     
     mysql.getConnection((error, conn) => {
-        if (error) { return res.status(500).send({ error: error})}
+        if (error) { return res.status(500).send([{ error: error}])}
         conn.query(
             'SELECT * FROM vlcars where idCar = ?;',
             [req.params.idCar],
@@ -129,7 +129,7 @@ exports.deleteCar = (req, res, next) => {
     mysql.getConnection((error, conn)=>{
         
         if (error) { 
-            return res.status(500).send({ error: error})
+            return res.status(500).send([{ error: error}])
         }
         
         conn.query(
@@ -138,7 +138,7 @@ exports.deleteCar = (req, res, next) => {
             (error, result, field) => {
                 conn.release();
                 if (result < 1) { 
-                    return res.status(404).send({ error: error})
+                    return res.status(404).send([{ error: error}])
                 }
                 
                 const response = [{
