@@ -25,7 +25,7 @@ exports.getObras =  (req, res, next) => {
                     
                 }
                 if (res.status(403)) {
-                    reset();
+                    this.getObras();
                 }
                 const response = result.map(obras => {
                     return{
