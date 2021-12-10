@@ -9,6 +9,8 @@ const rotaCars = require('./routes/cars');
 const rotaUsuarios = require('./routes/usuarios');
 const rotaObras = require('./routes/obras');
 
+
+app.use(cors());   
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true})); //apenas dados simples
 app.use(bodyParser.json()); //json de entrada no body
@@ -33,7 +35,7 @@ app.use((req, res, next) => {
     
 
     
-    app.use(cors());   
+  
    
     if(req.method === 'OPTIONS'){
         res.setHeader("Access-Control-Allow-Methods", "PUT", "POST, GET, DELETE, PATCH");
