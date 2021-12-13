@@ -6,7 +6,7 @@ const login = require('../middleware/login');
 const funcController = require('../controllers/funcionarios-controller');
 
 
-router.get('/finalAllFuncionario', login.opcional, funcController.getAllFunc );
+router.get('/findalAllFuncionario', login.opcional, funcController.getAllFunc );
 
 router.post('/cadastrarFuncionario', /*login.obrigatorio,*/ funcController.postFuncionarios);
 
