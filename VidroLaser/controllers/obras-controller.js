@@ -126,6 +126,7 @@ exports.postObras = (req, res, next) => {
         conn.query('Select * from vlcars where idCar = ?',
             [req.body.idCar],
             (error, result, field) => {
+                
                 if (error) {
                     return res.status(500).send ({error: error})
                 }

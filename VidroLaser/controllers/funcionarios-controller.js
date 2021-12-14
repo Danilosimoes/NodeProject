@@ -8,6 +8,7 @@ exports.getAllFunc = (req, res, next) => {
          conn.query(
              'SELECT * FROM vlfuncionarios;',
              (error, result, fields) => {
+                 conn.release();
                  if (error) {
                      return res.status(500).send({ error: error})                
                  }
@@ -82,6 +83,7 @@ exports.findbyIdFunc = (req, res, next) =>{
             'SELECT * FROM vlfuncionarios where idFuncionario = ?;',
             [req.params.idFuncionario],
             (error, result, fields) => {
+                conn.release();
                 
                 if (error) {
                     return res.status(500).send({ error: error})                
