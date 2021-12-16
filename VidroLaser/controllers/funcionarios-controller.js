@@ -25,7 +25,7 @@ exports.getAllFunc = (req, res, next) => {
                              request:{
                                  tipo: 'GET',
                                  descricao: 'Retorna o funcionário especifico',
-                                 url: 'http://localhost:3000/funcionarios/' + func.idFuncionario
+                                 url: 'http://143.110.153.236:8080/funcionarios/' + func.idFuncionario
                              }
                          }
                      })
@@ -53,16 +53,8 @@ exports.postFuncionarios = (req, res, next) => {
                 if (error) { 
                     return res.status(500).send({ error: error})
                 }
-                const response =[{
-                        idFuncionario: result.insertId,
-                        nome: req.body.Nome,
-                        setor: req.body.setor,
-                        request: {
-                            tipo: 'GET',
-                            descricao: 'Funcionario inserido',
-                            url: 'http://localhost:3000/funcionarios/' + result.insertId
-                        }
-                    }]
+                const response = 'Funcionario cadastrado com sucesso ' + result.insertId
+                        
                 
                 return res.status(201).send(
                     response
@@ -98,7 +90,7 @@ exports.findbyIdFunc = (req, res, next) =>{
                         request:{
                             tipo: 'GET',
                             descricao: 'Retorna todos os funcionarios',
-                            url: 'http://localhost:3000/funcionarios'
+                            url: 'http://143.110.153.236:8080/funcionarios/findFuncionarios'
                         }
                     
                 }]
@@ -132,7 +124,7 @@ exports.patchFuncionario = (req, res, next) => {
                         request: {
                             tipo: 'GET',
                             descricao : 'Retorna os detalhes do funcioario atualizado',
-                            url: 'http://localhost:3000/funcionarios/' + req.body.idFuncionario
+                            url: 'http://143.110.153.236:8080/funcionarios/' + req.body.idFuncionario
                         }
                     
                 }]

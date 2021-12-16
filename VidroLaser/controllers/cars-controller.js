@@ -26,7 +26,7 @@ exports.getAllCars = (req, res, next) => {
                         request:{
                             tipo: 'GET',
                             descricao: 'Retorna o carro especifico',
-                            url: 'http://localhost:3000/cars/' + cars.idCar
+                            url: 'http://143.110.153.236:8080/cars/' + cars.idCar
                         }
                     }
                 })
@@ -56,19 +56,7 @@ exports.postCars = (req, res, next) => {
                 if (error) { 
                     return res.status(500).send([{ error: error}])
                 }
-                const response = [{
-                        idCarro: result.insertId,
-                        Placa: req.body.License,
-                        Model: req.body.Model,
-                        Cor : req.body.Cor,
-                        request: {
-                            tipo: 'GET',
-                            descricao: 'Carro inserido',
-                            url: 'http://localhost:3000/cars/' + result.insertId,
-                            mensagem: 'Carro inserido com sucesso'
-                        }
-                    
-                }]
+                const response = "Carro cadastrado com sucesso id " + result.insertId
                 return res.status(201).send(
                     response
                 );
@@ -109,7 +97,7 @@ exports.getOneCar = (req, res, next) =>{
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna todos os carros',
-                            url: 'http://localhost:3000/cars'
+                            url: 'http://143.110.153.236:8080/cars'
                         }
 
                     
