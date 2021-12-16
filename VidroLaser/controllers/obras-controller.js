@@ -149,7 +149,8 @@ exports.postObras = (req, res, next) => {
                                 return res.status(500).send({error: error})
                             }
 
-                            const response = 'Sua instalação é ' + result.insertId
+                            const response = [result.insertId]
+                            
                                /* mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
                                 url: 'http://143.110.153.236:8080/obras/cadastro' + result.insertId*/
                             
