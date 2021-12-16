@@ -35,7 +35,7 @@ exports.getObras =  (req, res, next) => {
                             placa: obras.License,
                             nome: obras.Nome,
                             url: {
-                                url: 'http://localhost:3000/obras/' + obras.idInstalacao}
+                                url: 'http://143.110.153.236:8080/obras/' + obras.idInstalacao}
                     }   
                 
                 })
@@ -81,33 +81,6 @@ exports.getFirstObras =  (req, res, next) => {
                     chegada: obras.chegada 
                     }   
                 })
-                
-                /*const response = [{
-                    Instalaçao:{
-                        idInstalacao: result[0].idInstalacao,
-                        Pedido: result[0].nPedido,
-                        saida: result[0].saida,
-                        chegada: result[0].chegada,
-                        descricao: result[0].descricao
-                        ,
-                        Carro: {
-                            idCar: result[0].idCar,
-                            Modelo: result[0].Model,
-                            Placa: result[0].License
-                        
-                        },
-                        Funcionário: {
-                            idFuncionario: result[0].idFuncionario,
-                            Nome: result[0].Nome
-                        },
-                        request: {
-                            tipo: 'GET',
-                            descricao: 'Retorna os detalhes da Instalação',
-                            url: 'http://localhost:3000/obras/'
-                    }   }        
-                    
-                    
-                }]*/
                 
                 return res.status(200).send(response) 
             }
@@ -176,26 +149,16 @@ exports.postObras = (req, res, next) => {
                                 return res.status(500).send({error: error})
                             }
 
-                            const response = [{
+                            const response = {
                                 mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
-                                
-                                    idInstalacao: result.insertId,
-                                    idFunc: req.body.idFuncionario,
-                                    funs2: req.body.Funcionario2,
-                                    nPedido: req.body.nPedido,
-                                    idCar: req.body.idCar,
-                                    descricao: req.body.descricao,
-                                    saida: datetime,
-                                    tipo: 'GET',
-                                    descricao: 'Retorna a instalação',
-                                    url: 'http://localhost:3000/obras/' + result.insertId
-                            }]
+                                url: 'http://143.110.153.236:8080/obras/cadastro' + result.insertId
+                            }
 
                             
-                        return res.status(201).send(
-                            response
+                            return res.status(201).send(
+                                response
                             
-                        ) 
+                            ) 
                     }
                     
                 )
@@ -230,17 +193,12 @@ exports.putObras = (req, res, next) =>{
                         if (error) {
                             return res.status(500).send({error: error})
                         }
-                        const response = [{
-                                instalacao: req.body.idInstalacao,
-                                chegada: chegada,
+                        const response = {
                                 mensagem: 'Instalação concluida com sucesso',
-                                request: {
-                                    metodo: 'GET',
-                                    descricao: 'Retorna a instalaçao finalizada',
-                                    url: 'http://localhost:3000/obras/' + req.body.idInstalacao
+                                chegada: chegada,
+                                url: 'http://143.110.153.236:8080/obras/' + req.body.idInstalacao
                                     
-                                }
-                        }]
+                            }
                         
                         return res.status(202).send(
                             response
@@ -264,13 +222,10 @@ exports.deleteObras = (req, res, netxt)=>{
                 if (error) {
                     return res.status(500).send({error: error})
                 }
-                const response = [{
+                const response = {
                     mensagem: 'Instalação removida com sucesso',
-                    request: {
-                        Method: 'POST',
-                        url: 'http://localhost:3000/obras'
-                    }
-                }]
+                    
+                }
                 return res.status(202).send(response)
         }   )
     })
