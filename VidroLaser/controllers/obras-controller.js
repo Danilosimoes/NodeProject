@@ -264,10 +264,10 @@ exports.getObrasAbertas  = (req, res, next) => {
                 return{
                     instalacao: element.idInstalacao,
                     nome: element.Nome,
-                    placa: element.placa,
+                    placa: element.License,
                     pedido: element.nPedido,
                     saida: element.saida
-                    
+
 
                 }
             })
