@@ -267,6 +267,7 @@ exports.getObrasAbertas  = (req, res, next) => {
                     placa: element.placa,
                     pedido: element.nPedido,
                     saida: element.saida
+                    
 
                 }
             })
