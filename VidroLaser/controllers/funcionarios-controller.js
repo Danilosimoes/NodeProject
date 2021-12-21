@@ -53,6 +53,10 @@ exports.postFuncionarios = (req, res, next) => {
                 if (error) { 
                     return res.status(500).send({ error: error})
                 }
+                if (req.body.Nome.length <3) {
+                    return res.status(418).send({mensagem: 'Insira um nome válido'})
+                }
+                
                 const response = 'Funcionario cadastrado com sucesso ' + result.insertId
                         
                 

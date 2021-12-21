@@ -53,8 +53,14 @@ exports.postCars = (req, res, next) => {
             [req.body.License, req.body.Model, req.body.Cor],
             (error, result, field) => {
                 conn.release();
+
+                console.log(req.body.License.length)                
+                
                 if (error) { 
-                    return res.status(500).send([{ error: error}])
+                    return res.status(500).send({ error: error})
+                }
+                if (req.body.License.length < 6) {
+                    return res.status(411).send({mensagem: 'Placa incorreta'})                    
                 }
                 const response = "Carro cadastrado com sucesso id " + result.insertId
                 return res.status(201).send(
