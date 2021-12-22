@@ -197,7 +197,7 @@ exports.putObras = (req, res, next) =>{
                         
                         })
                         if (dados == 1) {
-                            return res.status(401).send({mensagem: 'Há sáida com este id'})
+                            return res.status(204).send({dados})
                         }
                         if (error) {
                             return res.status(500).send({error: error})
