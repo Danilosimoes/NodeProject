@@ -188,25 +188,39 @@ exports.putObras = (req, res, next) =>{
                         mensagem: 'Id da instalação não encontrada'
                     })
                 } 
-                conn.query('Update vlinstalacao set chegada = ?, complete = 1 where idInstalacao = ?',
-                    [chegada = new Date() , req.body.idInstalacao],
-                    (error, result, field) =>{
-                        conn.release();
+                conn.query('Select complete from vlinstalacao where idInstalacao = ?',
+                    [req.body.idInstalacao],
+                    (error, result, field) => {
+                       const dados =  result.map(dados => {
+                           
+                            return dados.complete
+                        
+                        })
+                        if (dados == 1) {
+                            return res.status(401).send({mensagem: 'Há sáida com este id'})
+                        }
                         if (error) {
                             return res.status(500).send({error: error})
                         }
-                        const response = {
-                                mensagem: 'Instalação concluida com sucesso',
-                                chegada: chegada,
-                                url: 'http://143.110.153.236:8080/obras/' + req.body.idInstalacao
-                                    
-                            }
-                        
-                        return res.status(202).send(
-                            response
-                        )
-                        
-                }   )
+                        conn.query('Update vlinstalacao set chegada = ?, complete = 1 where idInstalacao = ?',
+                            [chegada = new Date() , req.body.idInstalacao],
+                            (error, result, field) =>{
+                                conn.release();
+                                if (error) {
+                                    return res.status(500).send({error: error})
+                                }
+                                const response = {
+                                        mensagem: 'Instalação concluida com sucesso',
+                                        chegada: chegada,
+                                        url: 'http://143.110.153.236:8080/obras/' + req.body.idInstalacao
+                                            
+                                    }
+                                
+                                return res.status(202).send(
+                                    response
+                                )
+                            
+                }   )    }   )
         }  )
         
     })
@@ -256,10 +270,10 @@ exports.getObrasAbertas  = (req, res, next) => {
             if (error) {
                 return res.status(500).send({error: error})
             }
-            /*if (result < 1 ) {
+            if (result < 1 ) {
                 
                 return res.status(200).send({mensagem: "Não há saídas em aberto"})
-            }*/
+            }
             const response = result.map(element => {
                 return{
                     instalacao: element.idInstalacao,
