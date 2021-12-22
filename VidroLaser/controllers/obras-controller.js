@@ -256,10 +256,10 @@ exports.getObrasAbertas  = (req, res, next) => {
             if (error) {
                 return res.status(500).send({error: error})
             }
-            if (result < 1 ) {
+            /*if (result < 1 ) {
                 
-                return res.status(404).send({mensagem: "Não há saídas em aberto"})
-            }
+                return res.status(200).send({mensagem: "Não há saídas em aberto"})
+            }*/
             const response = result.map(element => {
                 return{
                     instalacao: element.idInstalacao,
