@@ -119,17 +119,25 @@ exports.postObras = (req, res, next) => {
                     return res.status(404).send ({mensagem: 'Funcionário não encontrado'})
                 }
 
-                conn.query('select chegada from vlinstalacao where idCar = ?',
+                conn.query('select complete from vlinstalacao where idCar = ?',
                 [req.body.idCar],
                 (error, result, field) => {
+                    console.log(result)
+                    const complete = result.map(fim => {
+                        return saidas = {saida: fim.complete}
+                        
+                    })
+                    const filtraSaida = complete.filter(function(item){
+                        return item.saida == 0
+                    });
+                    
                     if (error){
                         return res.status(500).send({error: error})
                     }
-                    if(result === null){
+                    if(filtraSaida.length > 0){
                         return res.status(403).send ({mensagem: 'Existe uma saída em aberto para este carro'})
                     }
 
-                
                     conn.query(`insert INTO vlinstalacao (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
                                 values(?,?,?,?,?,?,?,?,?)`,
                         [
