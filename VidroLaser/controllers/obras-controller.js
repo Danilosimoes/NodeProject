@@ -108,16 +108,18 @@ exports.postObras = (req, res, next) => {
                 })
             }
             
-            conn.query('select * from vlfuncionarios where idFuncionario = ?',
+            conn.query('select * from vlfuncionarios where idFuncionario = ?', 
             [req.body.idFuncionario],
             (error, result, field) => {
                 if (error) {
                     return res.status(500).send ({error: error})
                 }
+
                 if (result.length == 0) {
                     return res.status(404).send ({mensagem: 'Funcionário não encontrado'})
                 }
 
+    
                 conn.query('select complete from vlinstalacao where idCar = ?',
                 [req.body.idCar],
                 (error, result, field) => {
@@ -135,45 +137,70 @@ exports.postObras = (req, res, next) => {
                     if(filtraSaida.length > 0){
                         return res.status(403).send ({mensagem: 'Existe uma saída em aberto para este carro'})
                     }
+                    //Verificar esta parte do código!!
+                    conn.query(`Select * from vlinstalacao where complete = 0`,
+                    (error, result, field) => {
+                        const todasSaidas = result.map(dados => {
+                            return resultados = 
+                                /*motorista:*/ dados.idFuncionario
+                                /*ajudante2:*/// dados.idFuncionario2,
+                                /*ajudante3:*/ //dados.idFuncionario3,
+                                /*ajudante4:*/ //dados.idFuncionario4,
+                                /*ajudante5:*/ //dados.idFuncionario5
+                                /*veiculo:*/// dados.idCar
+    
+                        })
+                        //console.log(todasSaidas)
+                        if (error){
+                            return res.status(500).send({error: error})
+                        }
+                        
+                    
 
-                    conn.query(`insert INTO vlinstalacao (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
-                                values(?,?,?,?,?,?,?,?,?)`,
-                        [
-                        req.body.idFuncionario,
-                        req.body.Funcionario2,
-                        req.body.Funcionario3 ? req.body.Funcionario3 : "N/F",
-                        req.body.Funcionario4 ? req.body.Funcionario4 : "N/F", 
-                        req.body.Funcionario5 ? req.body.Funcionario5 : "N/F", 
-                        req.body.nPedido ? req.body.nPedido : "N/P",
-                        datetime = new Date(),
-                        req.body.idCar,
-                        req.body.descricao
-                        ],
-                        (error, result, field) => {
-                            conn.release();
-                            if (error) {
-                                return res.status(500).send({error: error})
-                            }
+                        conn.query(`insert INTO vlinstalacao (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
+                                    values(?,?,?,?,?,?,?,?,?)`,
+                            insert = [
+                            req.body.idFuncionario,
+                            req.body.Funcionario2,
+                            req.body.Funcionario3 ? req.body.Funcionario3 : "N/F3",
+                            req.body.Funcionario4 ? req.body.Funcionario4 : "N/F4", 
+                            req.body.Funcionario5 ? req.body.Funcionario5 : "N/F5", 
+                            req.body.nPedido ? req.body.nPedido : "N/P",
+                            datetime = new Date(),
+                            req.body.idCar,
+                            req.body.descricao
+                            ],
+                            (error, result, field) => {
+                                conn.release();
+                                console.log(insert);
+                                console.log(hasDuplicates(insert));
+        
+                                
+                                
+                                if (error) {
+                                    return res.status(500).send({error: error})
+                                }
+                                
 
-                            const response =  'Instalação número ' + result.insertId
-                            
-                            
-                               /* mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
-                                url: 'http://143.110.153.236:8080/obras/cadastro' + result.insertId*/
-                            
+                                const response =  'Instalação número ' + result.insertId
+                                
+                                
+                                /* mensagem: 'Saída realizada, sua instalação é ' + result.insertId,
+                                    url: 'http://143.110.153.236:8080/obras/cadastro' + result.insertId*/
+                                
 
-                            
-                            return res.status(201).send(
-                                response
-                            
-                            ) 
+                                
+                                return res.status(201).send(
+                                    response
+                                
+                                ) 
                     }
                     
                 )
             }
         )
     
-    }) })
+    }) }) })
 });
 };
 
@@ -197,6 +224,7 @@ exports.putObras = (req, res, next) =>{
                 conn.query('Select complete from vlinstalacao where idInstalacao = ?',
                     [req.body.idInstalacao],
                     (error, result, field) => {
+                        //Verificar código
                        const dados =  result.map(dados => {
                            
                             return dados.complete
@@ -296,4 +324,12 @@ exports.getObrasAbertas  = (req, res, next) => {
         })   
         
     })
+}
+
+
+
+
+//Verificando se há valores duplicados dentro do array
+function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
 }
