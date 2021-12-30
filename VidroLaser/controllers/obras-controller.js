@@ -154,9 +154,22 @@ exports.postObras = (req, res, next) => {
                         if (error){
                             return res.status(500).send({error: error})
                         }
+                        insert = [
+                            req.body.idFuncionario,
+                            req.body.Funcionario2,
+                            req.body.Funcionario3 ? req.body.Funcionario3 : "N/F3",
+                            req.body.Funcionario4 ? req.body.Funcionario4 : "N/F4", 
+                            req.body.Funcionario5 ? req.body.Funcionario5 : "N/F5", 
+                            req.body.nPedido ? req.body.nPedido : "N/P",
+                            datetime = new Date(),
+                            req.body.idCar,
+                            req.body.descricao
+                            ],
+                            hasDuplicates(insert)
+                            if(hasDuplicates(insert) == true){
+                                    return res.status(401).send({mensagem: 'Há valores repetidos'})
+                                }  
                         
-                    
-
                         conn.query(`insert INTO vlinstalacao (idFuncionario , idFuncionario2, idFuncionario3, idFuncionario4, idFuncionario5, nPedido, saida, idCar, descricao) 
                                     values(?,?,?,?,?,?,?,?,?)`,
                             insert = [
@@ -170,18 +183,14 @@ exports.postObras = (req, res, next) => {
                             req.body.idCar,
                             req.body.descricao
                             ],
+                            
                             (error, result, field) => {
                                 conn.release();
-                                console.log(insert);
-                                console.log(hasDuplicates(insert));
-        
-                                
                                 
                                 if (error) {
                                     return res.status(500).send({error: error})
                                 }
                                 
-
                                 const response =  'Instalação número ' + result.insertId
                                 
                                 
@@ -193,7 +202,7 @@ exports.postObras = (req, res, next) => {
                                 return res.status(201).send(
                                     response
                                 
-                                ) 
+                                )             
                     }
                     
                 )
